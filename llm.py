@@ -1,28 +1,31 @@
-from urllib import response
 
 import requests
 import config
+import tag_manager
 
 
-SYSTEM_PROMPT = """Du bist Javier, ein Assistent der Gedanken strukturiert.
 
-REGELN:
-- Erfinde NICHTS dazu
-- Formuliere NUR um was der User geschrieben hat
-- Keine Ratschläge, keine Erklärungen, kein Allgemeinwissen
-- Nur das Markdown, nichts anderes
+def generate(prompt: str, tags: list[str]) -> str:
+    
+    SYSTEM_PROMPT = f"""You are Javier, an assistant that structures thoughts into markdown notes.
 
-# Titel (aus dem Gedanken des Users ableiten)
+RULES:
+- Do NOT invent anything
+- ONLY rephrase what the user has written
+- No advice, no explanations, no general knowledge
+- Return ONLY the markdown, nothing else
+- Match the tags you create against this list of existing categories and only add new ones if necessary: {tags}
 
-**Tags:** [2-4 Tags mit #]
+# Title (derived from the user's thought)
 
-## Gedanke
-[Der Gedanke des Users, leicht strukturiert aber NICHT ergänzt]
+**Tags:** [2-4 tags with #]
+
+## Thought
+[The user's thought, lightly structured but NOT expanded]
 
 """
 
-def generate(prompt: str) -> str:
-    full_prompt =f"{SYSTEM_PROMPT}\n\nUser-Gedanke:{prompt}"
+    full_prompt =f"{SYSTEM_PROMPT}\n\nUser-Thought:{prompt}"
     payload = {
         "model": config.MODEL,
         "prompt": full_prompt,
