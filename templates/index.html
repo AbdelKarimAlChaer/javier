@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JAVIER</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="grid-overlay"></div>
+
+  <header>
+    <div class="header-left">
+      <span class="logo">JAVIER</span>
+      <span class="tagline">// thought structuring system</span>
+    </div>
+    <div class="header-right">
+      <span class="status-dot" id="statusDot"></span>
+      <span class="status-text" id="statusText">READY</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="center-block">
+      <div class="corner tl"></div>
+      <div class="corner tr"></div>
+      <div class="corner bl"></div>
+      <div class="corner br"></div>
+
+      <div class="prompt-label">// INPUT THOUGHT</div>
+      <textarea
+        id="thoughtInput"
+        placeholder="dump your thought here..."
+        rows="5"
+        autofocus
+      ></textarea>
+
+      <div class="actions">
+        <div class="char-count"><span id="charCount">0</span> CHARS</div>
+        <button id="submitBtn" onclick="submitThought()">
+          <span id="btnText">STRUCTURE →</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="log-block">
+      <div class="log-label">// OUTPUT LOG</div>
+      <div id="logOutput">
+        <div class="log-entry system">_ system initialized</div>
+      </div>
+    </div>
+  </main>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

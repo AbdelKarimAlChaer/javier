@@ -9,5 +9,4 @@ def main()-> None:
     if(pipeline.run(user_input)):
         console.print("Your notes have been saved!", style="bold blue")
 
-if __name__ == "__main__":
-    main()
+
