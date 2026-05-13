@@ -1,7 +1,7 @@
 #config.py
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL = "llama3.2"
-NOTES_DIR = "notes"
+MODEL = "claude-haiku-4-5"
 TEMPERATURE = 0.3
 MAX_TOKENS = 1024
+NOTES_DIR = "notes"

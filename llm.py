@@ -1,20 +1,22 @@
-
-import requests
+import anthropic
 import config
-import tag_manager
+import dotenv
+
+dotenv.load_dotenv()
 
 
 
-def generate(prompt: str, tags: list[str]) -> str:
-    
-    SYSTEM_PROMPT = f"""You are Javier, an assistant that structures thoughts into markdown notes.
+def generate(prompt: str, categories: list[str] = []) -> str:
+    """Send a prompt to Claude and return the response."""
+    system_prompt = f"""You are Javier, an assistant that structures thoughts into markdown notes.
 
 RULES:
 - Do NOT invent anything
 - ONLY rephrase what the user has written
 - No advice, no explanations, no general knowledge
 - Return ONLY the markdown, nothing else
-- Match the tags you create against this list of existing categories and only add new ones if necessary: {tags}
+- Match the tags you create against these existing categories and only add new ones if necessary: {categories}
+- Tags MUST reflect the actual topic of the thought, not general concepts like "productivity"
 
 # Title (derived from the user's thought)
 
@@ -22,22 +24,37 @@ RULES:
 
 ## Thought
 [The user's thought, lightly structured but NOT expanded]
-
 """
+    client = anthropic.Anthropic()
 
-    full_prompt =f"{SYSTEM_PROMPT}\n\nUser-Thought:{prompt}"
-    payload = {
-        "model": config.MODEL,
-        "prompt": full_prompt,
-        "stream": False,
-        "options": {
-        "temperature": config.TEMPERATURE,
-        "num_predict": config.MAX_TOKENS
-        }
-    }
     try:
-        response = requests.post(config.OLLAMA_URL, json=payload)
-        response.raise_for_status()
-        return response.json().get("response", "")
-    except requests.exceptions.RequestException as e:
-        raise ConnectionError(f"Fehler bei der Verbindung zum LLM: {e}")
+        response = client.messages.create(
+            model=config.MODEL,
+            max_tokens=config.MAX_TOKENS,
+            system=system_prompt,
+            messages=[{"role":"user", "content": prompt}]
+        )
+        return response.content[0].text
+
+    except anthropic.APIConnectionError:
+        raise ConnectionError("No connection to Anthropic API.")
+    except anthropic.AuthenticationError:
+        raise ConnectionError("Invalid API Key. Check ANTHROPIC_API_KEY.")
+
+
+def ask(prompt: str) -> str:
+    """Raw call to Claude without system prompt. For classification tasks."""
+    client = anthropic.Anthropic()
+
+    try:
+        response = client.messages.create(
+            model=config.MODEL,
+            max_tokens=100,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return response.content[0].text
+
+    except anthropic.APIConnectionError:
+        raise ConnectionError("No connection to Anthropic API.")
+    except anthropic.AuthenticationError:
+        raise ConnectionError("Invalid API Key. Check ANTHROPIC_API_KEY.")
