@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JAVIER</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
 </head>
 <body>
   <div class="grid-overlay"></div>
@@ -21,6 +22,25 @@
   </header>
 
   <main>
+
+    <!-- LEFT: Tag Browser -->
+    <aside class="sidebar">
+      <div class="sidebar-label">// TAG BROWSER</div>
+      <input type="text" id="tagSearch" placeholder="search tags..." oninput="filterTags()" />
+      <div id="tagList" class="tag-list">
+        <div class="dim">loading...</div>
+      </div>
+
+      <div id="noteList" class="note-list hidden">
+        <div class="note-list-header">
+          <span id="activeTag"></span>
+          <button class="back-btn" onclick="clearNoteList()">← BACK</button>
+        </div>
+        <div id="noteItems"></div>
+      </div>
+    </aside>
+
+    <!-- CENTER: Input -->
     <div class="center-block">
       <div class="corner tl"></div>
       <div class="corner tr"></div>
@@ -43,12 +63,27 @@
       </div>
     </div>
 
-    <div class="log-block">
-      <div class="log-label">// OUTPUT LOG</div>
-      <div id="logOutput">
-        <div class="log-entry system">_ system initialized</div>
+    <!-- RIGHT: Log + Note Viewer -->
+    <div class="right-panel">
+
+      <div class="panel-tabs">
+        <button class="tab active" id="tabLog" onclick="showTab('log')">LOG</button>
+        <button class="tab" id="tabNote" onclick="showTab('note')">NOTE</button>
       </div>
+
+      <div id="panelLog" class="panel-content">
+        <div id="logOutput">
+          <div class="log-entry system">_ system initialized</div>
+        </div>
+      </div>
+
+      <div id="panelNote" class="panel-content hidden">
+        <div class="note-label" id="noteLabel">// NO NOTE SELECTED</div>
+        <div id="noteContent" class="note-content"></div>
+      </div>
+
     </div>
+
   </main>
 
   <script src="{{ url_for('static', filename='script.js') }}"></script>

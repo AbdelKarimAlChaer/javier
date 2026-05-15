@@ -25,4 +25,8 @@ def save(content: str) -> None:
         f.write(content)
     new_tags = {tag: [str(file_path)] for tag in tag_manager.extract_tags(content)}
     tag_manager.update_tags(new_tags)
+
+    tags = tag_manager.extract_tags(content)
+    print("TAGS:", tags)
+    print("CONTENT:", content[:200])
     

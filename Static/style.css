@@ -105,9 +105,125 @@ main {
   position: relative;
   z-index: 10;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 220px 1fr 1fr;
   gap: 0;
   height: calc(100vh - 61px);
+}
+
+/* Sidebar */
+.sidebar {
+  border-right: 1px solid var(--border-bright);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 30px 20px;
+}
+
+.sidebar-label {
+  color: var(--accent);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  margin-bottom: 20px;
+}
+
+.tag-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+}
+
+.tag-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-dim);
+  font-size: 12px;
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+}
+
+.tag-item:hover {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.tag-item.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+}
+
+.note-list {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.note-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-bright);
+  font-size: 11px;
+  color: var(--accent);
+}
+
+.back-btn {
+  background: transparent;
+  color: var(--text-dim);
+  padding: 4px 8px;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.back-btn:hover {
+  background: transparent;
+  color: var(--accent);
+}
+
+.note-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-dim);
+  font-size: 11px;
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.note-item:hover {
+  color: var(--text);
+  border-left-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.hidden { display: none !important; }
+.dim { color: var(--text-dim); font-size: 12px; }
+
+#tagSearch {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-bright);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 12px;
+  padding: 8px 0;
+  margin-bottom: 16px;
+  outline: none;
+  letter-spacing: 0.05em;
+}
+
+#tagSearch::placeholder {
+  color: var(--text-dim);
+}
+
+#tagSearch:focus {
+  border-bottom-color: var(--accent);
 }
 
 /* Center input block */
@@ -119,6 +235,72 @@ main {
   padding: 60px 50px;
   border-right: 1px solid var(--border-bright);
 }
+
+/* Right panel */
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-bright);
+}
+
+.tab {
+  background: transparent;
+  color: var(--text-dim);
+  padding: 16px 28px;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.tab:hover {
+  background: transparent;
+  color: var(--text);
+}
+
+.tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  background: transparent;
+}
+
+.panel-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 30px 40px;
+}
+
+.note-label {
+  color: var(--accent);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  margin-bottom: 20px;
+}
+
+.note-content {
+  flex: 1;
+  overflow-y: auto;
+  line-height: 1.8;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.note-content::-webkit-scrollbar { width: 2px; }
+.note-content::-webkit-scrollbar-thumb { background: var(--accent); }
+
+/* Markdown rendering */
+.note-content h1 { color: var(--accent); font-size: 16px; margin-bottom: 16px; letter-spacing: 0.1em; }
+.note-content h2 { color: var(--text); font-size: 13px; margin: 20px 0 8px; letter-spacing: 0.05em; }
+.note-content strong { color: var(--accent); font-weight: 500; }
+.note-content p { margin-bottom: 12px; color: var(--text-dim); }
+.note-content ul { padding-left: 20px; color: var(--text-dim); }
 
 /* Geometric corner accents */
 .corner {
@@ -202,21 +384,7 @@ button:disabled {
   transform: none;
 }
 
-/* Log block */
-.log-block {
-  display: flex;
-  flex-direction: column;
-  padding: 60px 50px;
-  overflow: hidden;
-}
-
-.log-label {
-  color: var(--accent);
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  margin-bottom: 20px;
-}
-
+/* Log panel */
 #logOutput {
   flex: 1;
   overflow-y: auto;
