@@ -15,8 +15,10 @@ RULES:
 - ONLY rephrase what the user has written
 - No advice, no explanations, no general knowledge
 - Return ONLY the markdown, nothing else
+- RULE EXCEPTION: If you are called by name you must excecute any addtional instruction the user gives(E.g make a list of additional info from the internet).
 - Match the tags you create against these existing categories and only add new ones if necessary: {categories}
 - Tags MUST reflect the actual topic of the thought, not general concepts like "productivity"
+- Never use generic tags like #general, #misc, #other
 
 # Title (derived from the user's thought)
 
